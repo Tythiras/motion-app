@@ -1,5 +1,10 @@
+import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import { StyleSheet, View, StatusBar, ActivityIndicator } from 'react-native';
+import { Container, Text } from 'native-base';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 import LoadingScreen from './screens/LoadingScreen';
 import SettingsScreen from './screens/SettingsScreen';
@@ -44,7 +49,7 @@ const IntroStack = createStackNavigator(
   }
 );
 
-export default createAppContainer(
+let AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       LoadingScreen: LoadingScreen,
@@ -56,3 +61,51 @@ export default createAppContainer(
     }
   )
 );
+export default class App extends React.Component {
+
+  state = {
+      assetsLoaded: false,
+  };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+  
+      this.setState({ assetsLoaded: true });
+  }
+
+  render() {
+
+      const {assetsLoaded} = this.state;
+
+      if( assetsLoaded ) {
+          return (
+              <AppContainer
+                  ref={nav => {
+                      this.navigator = nav;
+                  }}
+              />
+          );
+      }
+      else {
+          return (
+              <View style={styles.container}>
+                  <ActivityIndicator />
+                  <StatusBar barStyle="default" />
+              </View>
+          );
+      }
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center'
+  },
+});
