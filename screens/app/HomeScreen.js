@@ -15,6 +15,8 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 export default class extends React.Component {
+  _isMounted = false;
+
   state = {
     secondsToNext: -1
   }
@@ -34,24 +36,29 @@ export default class extends React.Component {
     console.info(`Notification (${origin}) with data: ${JSON.stringify(data)}`)
   }
   _options = async () => {
+    console.log('hey');
     await AsyncStorage.clear();
     this.props.navigation.navigate('LoadingScreen');
   };
   _setTime = (newSeconds) => {
-    return new Promise((resolve, reject) => {
-      this.setState({secondsToNext: newSeconds});
-      AsyncStorage.setItem('secondsToNext', newSeconds.toString()).then(() => {
-          resolve();
-      });
+    if(this._isMounted) {
+      return new Promise((resolve, reject) => {
+        if(this._isMounted) {
+          this.setState({secondsToNext: newSeconds});
+        }
+        AsyncStorage.setItem('secondsToNext', newSeconds.toString()).then(() => {
+            resolve();
+        });
 
-    })
+      })
+    }
   }
   _checkAssignment = () => {
+    
     if(!this.state.secondsToNext || this.state.secondsToNext <= 0) {
-      if(this.state.secondsToNext==0) {
+      this._setTime(25 * 60).then(() => {
         this._startNotification();
-      }
-      this._setTime(25 * 60);
+      });
     } else {
       this._setTime(this.state.secondsToNext-1);
     }
@@ -59,6 +66,8 @@ export default class extends React.Component {
   }
   
   async componentDidMount() {
+    this._isMounted = true;
+
 
     let result = await Permissions.askAsync(Permissions.NOTIFICATIONS);
 
@@ -80,24 +89,29 @@ export default class extends React.Component {
         });
       })
   }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
     return (
       <View style={{backgroundColor: "#17223b", flex: 1}}>
-        <Button
-          icon={
-            <Ionicons
-              name="ios-build"
-              size={30}
-              color="white"
-            />
-          }
-          iconRight
-          title=""
-          onPress={this._options}
-          type="clear"
-          containerStyle={{width: 40, position: 'absolute', right: 10, top: 23}}
-        />
-        <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center', elevation: 1, borderTopColor: 'black', borderTopWidth: 2}}>
+        <View style={{position: 'absolute', right: 10, top: 23, zIndex: 1000}}>
+          <Button
+            icon={
+              <Ionicons
+                name="ios-build"
+                size={30}
+                color="white"
+              />
+            }
+            iconRight
+            title=""
+            onPress={this._options}
+            type="clear"
+            containerStyle={{width: 40}}
+          />
+        </View>
+        <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center', elevation: 1}}>
           <Title style={{fontSize: 32}}>{Math.ceil(this.state.secondsToNext / 60)} minutter</Title>
           <Subtitle style={{fontSize: 24}}>Til næste øvelse</Subtitle>
           <View style={{flexDirection: 'column', alignItems: 'center', alignContent: 'center', marginTop: 30}}>
@@ -105,7 +119,7 @@ export default class extends React.Component {
           </View>
           <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
         </View>
-        <View style={{flex: 6, backgroundColor: "#00184d", height: "100%", elevation: 30}}>
+        <View style={{flex: 6, backgroundColor: "#00184d", height: "100%", elevation: 30, borderTopColor: 'black', borderTopWidth: 2}}>
           <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lav 5 armbøjninger" time="14:00" />
           <Assignment icon={<Ionicons name="ios-body" size={30} color="white" />} title="Lav 5 englehop" time="15:00" />
           <Assignment icon={<Ionicons name="ios-egg" size={30} color="white" />} title="Spis noget mad" time="16:00" />
