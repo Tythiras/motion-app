@@ -17,17 +17,22 @@ import JobGeneralScreen from './screens/intro/JobGeneralScreen';
 import IntroductionScreen from './screens/intro/IntroductionScreen';
 
 
-const AppStack = createStackNavigator({
-  Home: {
-    screen: HomeScreen
+const AppStack = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen
+    },
+    Assignment: {
+      screen: AssignmentScreen,
+    },
+    Settings: {
+      screen: SettingsScreen
+    }
   },
-  Assignment: {
-    screen: AssignmentScreen,
-  },
-  Settings: {
-    screen: SettingsScreen
+  {
+    headerMode: 'none'
   }
-});
+);
 const IntroStack = createStackNavigator(
   {
     Welcome: {

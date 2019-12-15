@@ -8,34 +8,54 @@ import {
   Button,
   Text
 } from 'react-native';
-
-
-
+import {Title, Subtitle} from 'native-base';
+import ProgressBar from 'react-native-progress/Bar';
 export default class extends React.Component {
   state = {
-    userToken: ''
+    minutesToNext: -1
   }
-  static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
 
   _options = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('LoadingScreen');
   };
+  _checkAssignment = () => {
+    console.log('hey');
+    console.log(this.state.minutesToNext);
+    if(!this.state.minutesToNext || this.state.minutesToNext <= 0) {
+      this.setState({minutesToNext: 25});
+    } else {
+      this.setState({minutesToNext: this.state.minutesToNext-1});
+    }
+    console.log(this.state.minutesToNext);
+  }
   componentDidMount() {
-    AsyncStorage.getItem('userToken')
-      .then((userToken) => {
-        this.setState({ userToken })
-      });
-      
+    this._checkAssignment();
+    AsyncStorage.getItem('minutesToNext')
+      .then((minutes) => {
+        this.state.minutesToNext = minutes;
+        setInterval(this._checkAssignment, 60000)
+      })
+  }
+  componentWillUnmount() {
+    AsyncStorage.setItem('minutesToNext', this.state.minutesToNext);
   }
   render() {
     return (
-      <View>
-        <Button title="Show me more of the app" onPress={this._showMoreApp} />
-        <Button title="Start på ny" onPress={this._options} />
-        <Text>ORALE</Text>
+      <View style={{backgroundColor: "#17223b", flex: 1}}>
+        <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center'}}>
+          <Title style={{fontSize: 32}}>{this.state.minutesToNext} minutter</Title>
+          <Subtitle style={{fontSize: 24}}>Til næste øvelse</Subtitle>
+          <View style={{flexDirection: 'column', alignItems: 'center', alignContent: 'center', marginTop: 30}}>
+            <ProgressBar progress={this.state.minutesToNext / 60} width={230} color={'#48c774'} unfilledColor={'white'} borderWidth={0} />
+          </View>
+          <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
+
+        </View>
+        <View style={{flex: 6}}>
+          <Title style={{fontSize: 32}}>Orale</Title>
+          <Button title="Start på ny" onPress={this._options} />
+        </View>
       </View>
     );
   }
