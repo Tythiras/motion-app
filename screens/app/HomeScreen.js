@@ -104,7 +104,6 @@ export default class extends React.Component {
             <ProgressBar progress={(this.state.secondsToNext / 60) / 60} width={230} color={'#48c774'} unfilledColor={'white'} borderWidth={0} />
           </View>
           <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
-
         </View>
         <View style={{flex: 6, backgroundColor: "#00184d", height: "100%", elevation: 30}}>
           <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lav 5 armbøjninger" time="14:00" />
