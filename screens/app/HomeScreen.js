@@ -73,7 +73,7 @@ export default class extends React.Component {
         if(seconds) {
           time = parseInt(seconds);
         } else {
-          time = 25;
+          time = 0;
         }
         this._setTime(time).then(() => {
           setInterval(this._checkAssignment, 1000)
