@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Button, View } from "react-native";
+import React, {Component} from "react";
+import {Button} from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default class TimePicker extends Component {
@@ -22,9 +22,10 @@ export default class TimePicker extends Component {
 
     handleTimePicked = date => {
         let splitted = date.toTimeString().split(':');
-        this.setState({time: splitted[0]+":"+splitted[1]});
+        let formattedTime = splitted[0]+":"+splitted[1];
+        this.setState({time: formattedTime});
         this.hideTimePicker();
-        this.props.handleTimePicked(date);
+        this.props.handleTimePicked(formattedTime);
     };
 
     render() {
