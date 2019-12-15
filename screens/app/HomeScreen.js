@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   AsyncStorage,
-  StatusBar,
-  StyleSheet,
   View,
-  Button,
-  Text
 } from 'react-native';
+import { Button } from 'react-native-elements';
+
 import {Title, Subtitle} from 'native-base';
 import ProgressBar from 'react-native-progress/Bar';
+import { Ionicons } from '@expo/vector-icons';
+
+import Assignment from '../../components/Assignment';
 export default class extends React.Component {
   state = {
     minutesToNext: -1
@@ -20,14 +20,11 @@ export default class extends React.Component {
     this.props.navigation.navigate('LoadingScreen');
   };
   _checkAssignment = () => {
-    console.log('hey');
-    console.log(this.state.minutesToNext);
     if(!this.state.minutesToNext || this.state.minutesToNext <= 0) {
       this.setState({minutesToNext: 25});
     } else {
       this.setState({minutesToNext: this.state.minutesToNext-1});
     }
-    console.log(this.state.minutesToNext);
   }
   componentDidMount() {
     this._checkAssignment();
@@ -40,10 +37,25 @@ export default class extends React.Component {
   componentWillUnmount() {
     AsyncStorage.setItem('minutesToNext', this.state.minutesToNext);
   }
+  
   render() {
     return (
       <View style={{backgroundColor: "#17223b", flex: 1}}>
-        <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center'}}>
+        <Button
+          icon={
+            <Ionicons
+              name="ios-build"
+              size={30}
+              color="white"
+            />
+          }
+          iconRight
+          title=""
+          onPress={this._options}
+          type="clear"
+          containerStyle={{width: 40, position: 'absolute', right: 10, top: 23}}
+        />
+        <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center', elevation: 1, borderTopColor: 'black', borderTopWidth: 2}}>
           <Title style={{fontSize: 32}}>{this.state.minutesToNext} minutter</Title>
           <Subtitle style={{fontSize: 24}}>Til næste øvelse</Subtitle>
           <View style={{flexDirection: 'column', alignItems: 'center', alignContent: 'center', marginTop: 30}}>
@@ -52,9 +64,15 @@ export default class extends React.Component {
           <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
 
         </View>
-        <View style={{flex: 6}}>
-          <Title style={{fontSize: 32}}>Orale</Title>
-          <Button title="Start på ny" onPress={this._options} />
+        <View style={{flex: 6, backgroundColor: "#00184d", height: "100%", elevation: 30}}>
+          <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lav 5 armbøjninger" time="14:00" />
+          <Assignment icon={<Ionicons name="ios-body" size={30} color="white" />} title="Lav 5 englehop" time="15:00" />
+          <Assignment icon={<Ionicons name="ios-egg" size={30} color="white" />} title="Spis noget mad" time="16:00" />
+          <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lorem ipsum" time="23:00" />
+          <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lorem ipsum" time="23:00" />
+          <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lorem ipsum" time="23:00" />
+          <Assignment icon={<Ionicons name="ios-bicycle" size={30} color="white" />} title="Lorem ipsum" time="2312:00" />
+
         </View>
       </View>
     );

@@ -1,30 +1,30 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarnpkg add expo-font@~7.0.0
+  /usr/bin/node /usr/bin/yarnpkg add vector-icons
 
 PATH: 
   /home/rasmus/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/opt/android-sdk/emulator:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/opt/android-sdk/tools/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
 
 Yarn version: 
-  1.19.1
+  1.21.0
 
 Node version: 
-  12.13.0
+  13.3.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: write EPIPE
-      at afterWriteDispatched (internal/stream_base_commons.js:150:25)
-      at writeGeneric (internal/stream_base_commons.js:141:3)
-      at Socket._writeGeneric (net.js:770:11)
-      at Socket._write (net.js:782:8)
-      at doWrite (_stream_writable.js:431:12)
-      at writeOrBuffer (_stream_writable.js:415:5)
-      at Socket.Writable.write (_stream_writable.js:305:11)
-      at Object.clearLine (readline.js:1270:17)
-      at clearLine (/usr/lib/node_modules/yarn/lib/cli.js:49657:12)
-      at clearNthLine (/usr/lib/node_modules/yarn/lib/cli.js:49695:5)
+  Error: https://registry.yarnpkg.com/vector-icons: Not found
+      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66938:18)
+      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140622:22)
+      at Request.emit (events.js:219:5)
+      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141594:10)
+      at Request.emit (events.js:219:5)
+      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141516:12)
+      at Object.onceWrapper (events.js:308:28)
+      at IncomingMessage.emit (events.js:224:7)
+      at endReadableNT (_stream_readable.js:1206:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -57,6 +57,10 @@ npm manifest:
       "react-native-elements": "^1.2.7",
       "react-native-gesture-handler": "~1.3.0",
       "react-native-linear-gradient": "^2.5.6",
+      "react-native-modal-datetime-picker": "^7.6.0",
+      "react-native-progress": "^4.0.2",
+      "react-native-svg": "9.9.5",
+      "react-native-vector-icons": "^6.6.0",
       "react-native-web": "^0.11.7",
       "react-navigation": "^3.13.0",
       "react-navigation-stack": "^1.10.3"
@@ -1106,6 +1110,15 @@ Lockfile:
       "@types/istanbul-reports" "^1.1.1"
       "@types/yargs" "^13.0.0"
   
+  "@react-native-community/art@^1.0.3":
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/@react-native-community/art/-/art-1.0.3.tgz#13c68d86e75d2f7cb199f58cce7a4e5ff395223a"
+    integrity sha512-gCgCBDVkpmcCzI+j6+Jv4fNvxNjAWZ7s8dDZEn52K2f5lmtdD/DV/64dZ1AyHHgA9BuDLOtRKm8QJE0DY88rgA==
+    dependencies:
+      art "^0.10.3"
+      invariant "^2.2.4"
+      prop-types "^15.7.2"
+  
   "@react-native-community/cli@^1.2.1":
     version "1.12.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli/-/cli-1.12.0.tgz#f4cbc2204af63a87d5736d2fa6a018c1fd5efd44"
@@ -1566,7 +1579,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
     integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
   
-  art@^0.10.0:
+  art@^0.10.0, art@^0.10.3:
     version "0.10.3"
     resolved "https://registry.yarnpkg.com/art/-/art-0.10.3.tgz#b01d84a968ccce6208df55a733838c96caeeaea2"
     integrity sha512-HXwbdofRTiJT6qZX/FnchtldzJjS3vkLJxQilc3Xj+ma2MXjY4UAyQ0ls1XZYVnDvVIBiFZbC6QsvtW86TD6tQ==
@@ -5844,6 +5857,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
     integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
   
+  react-native-animatable@1.3.3:
+    version "1.3.3"
+    resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+    integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+    dependencies:
+      prop-types "^15.7.2"
+  
   react-native-branch@~3.0.1:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.0.1.tgz#5b07b61cbd290168cd3c3662e017ebe0f356d2ca"
@@ -5905,10 +5925,34 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
     integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
   
+  react-native-modal-datetime-picker@^7.6.0:
+    version "7.6.0"
+    resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-7.6.0.tgz#6818f221010d0f61a6396a956b303fee65726fee"
+    integrity sha512-p7MquU/oAFO+S7+d1IYYK/8b9mroZXuStK2HA2FxX3e8O1YeNyq2Bggr4KPr6D0saJ/6iGzq8pFwN0YfaCW9+A==
+    dependencies:
+      prop-types "^15.7.2"
+      react-native-modal "^11.0.2"
+  
+  react-native-modal@^11.0.2:
+    version "11.5.3"
+    resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.5.3.tgz#28b4c761680a165eaf1d2c0fb08e272c0191b39f"
+    integrity sha512-U6RghSkZUZ6c0LHMbwAnVscEwGoI58eXfBstVs18t50miV0GmLcJhIOu5OND+SDGVkBQFiGFRu/pTUJaA7wfGw==
+    dependencies:
+      prop-types "^15.6.2"
+      react-native-animatable "1.3.3"
+  
   react-native-platform-touchable@^1.1.1:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
     integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
+  
+  react-native-progress@^4.0.2:
+    version "4.0.2"
+    resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-4.0.2.tgz#4a19178b2b214c831a1375a60a54acae1fd2d843"
+    integrity sha512-oAnpF8zIMTPa9czQ5lYlSn/EO+mYkjf3LTMtCqt57yXkTrX1d89iUOTOSIEKLDtrH3e7iVdYR//2nizPPQejbQ==
+    dependencies:
+      "@react-native-community/art" "^1.0.3"
+      prop-types "^15.7.2"
   
   react-native-ratings@^6.3.0:
     version "6.5.0"
@@ -5932,10 +5976,20 @@ Lockfile:
     dependencies:
       debounce "^1.2.0"
   
+  react-native-shadow@^1.2.2:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/react-native-shadow/-/react-native-shadow-1.2.2.tgz#08991cd14b71e32f2fc6363911c139d231949a66"
+    integrity sha512-kwTmqRKmPEML9KbJi0uvvKd+67rOJQcr3IyNp9bg+qi/H+Wnwev/Mr8sUiUZlYEJ433ii2iNwpjc1ERMjHtMWw==
+  
   react-native-status-bar-height@^2.2.0:
     version "2.4.0"
     resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.4.0.tgz#de8cee4bb733a196167210d2d0bc1fa10acba3e3"
     integrity sha512-pWvZFlyIHiuxLugLioq97vXiaGSovFXEyxt76wQtbq0gxv4dGXMPqYow46UmpwOgeJpBhqL1E0EKxnfJRrFz5w==
+  
+  react-native-svg@9.9.5:
+    version "9.9.5"
+    resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.9.5.tgz#5f9fa196ac78ac10c0ce85152e429dba98353904"
+    integrity sha512-nqiPIsC1jB1TUK+ii7ryWc2pDU+YFJojj3awWXOKEP214gfKvjypjvjmW4PCcH70uBLUp3AwaDK2GI/hmbmaoA==
   
   react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
     version "1.4.1"
