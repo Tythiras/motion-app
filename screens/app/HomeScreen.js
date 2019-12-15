@@ -10,34 +10,76 @@ import ProgressBar from 'react-native-progress/Bar';
 import { Ionicons } from '@expo/vector-icons';
 
 import Assignment from '../../components/Assignment';
+import { Notifications } from 'expo';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
 export default class extends React.Component {
   state = {
-    minutesToNext: -1
+    secondsToNext: -1
+  }
+  _startNotification = () => {
+    Notifications.scheduleLocalNotificationAsync(
+      {
+        title: 'Har du husket din øvelse?',
+        body: 'Lav 5 armbøjninger'
+      },
+      {
+        time: new Date().getTime() + this.state.secondsToNext*1000
+      }
+    );
   }
 
+  _handleNotification = ({ origin, data }) => {
+    console.info(`Notification (${origin}) with data: ${JSON.stringify(data)}`)
+  }
   _options = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('LoadingScreen');
   };
+  _setTime = (newSeconds) => {
+    return new Promise((resolve, reject) => {
+      this.setState({secondsToNext: newSeconds});
+      AsyncStorage.setItem('secondsToNext', newSeconds.toString()).then(() => {
+          resolve();
+      });
+
+    })
+  }
   _checkAssignment = () => {
-    if(!this.state.minutesToNext || this.state.minutesToNext <= 0) {
-      this.setState({minutesToNext: 25});
+    if(!this.state.secondsToNext || this.state.secondsToNext <= 0) {
+      if(this.state.secondsToNext==0) {
+        this._startNotification();
+      }
+      this._setTime(25 * 60);
     } else {
-      this.setState({minutesToNext: this.state.minutesToNext-1});
+      this._setTime(this.state.secondsToNext-1);
     }
-  }
-  componentDidMount() {
-    this._checkAssignment();
-    AsyncStorage.getItem('minutesToNext')
-      .then((minutes) => {
-        this.state.minutesToNext = minutes;
-        setInterval(this._checkAssignment, 60000)
-      })
-  }
-  componentWillUnmount() {
-    AsyncStorage.setItem('minutesToNext', this.state.minutesToNext);
+  
   }
   
+  async componentDidMount() {
+
+    let result = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+
+    if (Constants.isDevice && result.status === 'granted') {
+      console.log('Notification permissions granted.')
+    }
+
+    Notifications.addListener(this._handleNotification);
+    AsyncStorage.getItem('secondsToNext')
+      .then((seconds) => {
+        let time;
+        if(seconds) {
+          time = parseInt(seconds);
+        } else {
+          time = 25;
+        }
+        this._setTime(time).then(() => {
+          setInterval(this._checkAssignment, 1000)
+        });
+      })
+  }
   render() {
     return (
       <View style={{backgroundColor: "#17223b", flex: 1}}>
@@ -56,10 +98,10 @@ export default class extends React.Component {
           containerStyle={{width: 40, position: 'absolute', right: 10, top: 23}}
         />
         <View style={{flex: 4, justifyContent: "center", textAlign: "center", alignContent: 'center', elevation: 1, borderTopColor: 'black', borderTopWidth: 2}}>
-          <Title style={{fontSize: 32}}>{this.state.minutesToNext} minutter</Title>
+          <Title style={{fontSize: 32}}>{Math.ceil(this.state.secondsToNext / 60)} minutter</Title>
           <Subtitle style={{fontSize: 24}}>Til næste øvelse</Subtitle>
           <View style={{flexDirection: 'column', alignItems: 'center', alignContent: 'center', marginTop: 30}}>
-            <ProgressBar progress={this.state.minutesToNext / 60} width={230} color={'#48c774'} unfilledColor={'white'} borderWidth={0} />
+            <ProgressBar progress={(this.state.secondsToNext / 60) / 60} width={230} color={'#48c774'} unfilledColor={'white'} borderWidth={0} />
           </View>
           <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
 
