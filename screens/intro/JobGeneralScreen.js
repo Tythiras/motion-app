@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Title, AsyncStorage} from 'native-base';
-import {Switch, Text, View} from 'react-native';
+import {Button, Title} from 'native-base';
+import {Switch, Text, View, AsyncStorage} from 'react-native';
 import IntroContainer from '../../components/IntroContainer';
 import TimePicker from "../utils/TimePicker";
 
@@ -39,8 +39,10 @@ export default class extends React.Component {
     };
 
     _next = () => {
-        this.props.navigation.navigate('JobBreaks');
-        AsyncStorage.setItem({})
+        this.props.navigation.navigate('Introduction');
+    };
+    _before = () => {
+        this.props.navigation.navigate('Welcome');
     };
 
 
@@ -59,43 +61,49 @@ export default class extends React.Component {
         return (
             <IntroContainer>
                 <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                    <Title style={{fontSize: 40}}>Dit job</Title>
+                    <Title style={{fontSize: 42}}>Dit job</Title>
                 </View>
-                <View style={{flex: 2, justifyContent: 'space-around'}}>
-                    <View style={{color: 'white', textAlign: 'center', fontSize: 20, paddingBottom: 5}}>
-                        <Title>
-                            Hvornår er du på arbejde
+                <View style={{justifyContent: 'flex-start', paddingTop: 60}}>
+                    <View style={{color: 'white', textAlign: 'center'}}>
+                        <Title style={{fontSize: 24}}>
+                            Hvornår er du på arbejde?
                         </Title>
                     </View>
-                    <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                    <View style={{marginTop: 10, justifyContent: 'center', flexDirection: 'row'}}>
                         <TimePicker time={this.state.startTime} handleTimePicked={this.handleTimePickedStart}/>
-                        <Text style={{color: 'white', textAlign: 'center', fontSize: 20, paddingHorizontal: 15}}>til</Text>
+                        <Text style={{color: 'white', textAlign: 'center', fontSize: 24, paddingHorizontal: 15}}>til</Text>
                         <TimePicker time={this.state.endTime} handleTimePicked={this.handleTimePickedEnd}/>
                     </View>
                 </View>
                 <View style={{flex: 2, justifyContent: 'flex-start' }}>
-                    <View style={{color: 'white', textAlign: 'center', fontSize: 20, paddingBottom: 5}}>
-                        <Title>
-                            Holder du pauser
+                    <View style={{color: 'white', textAlign: 'center', fontSize: 20, paddingBottom: 5, paddingTop: 50}}>
+                        <Title style={{fontSize: 24}}>
+                            Holder du nogle pauser?
                         </Title>
                     </View>
                     <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                        <Text style={{color: 'white', textAlign: 'center', fontSize: 20}}>Nej</Text>
-                        <Switch value={this.state.switchVal} onValueChange={this.toggleSwitch} />
-                        <Text style={{color: 'white', textAlign: 'center', fontSize: 20}}>Ja</Text>
+                        <Text style={{color: 'white', textAlign: 'center', fontSize: 24, marginRight: 5}}>Nej</Text>
+                        <Switch value={this.state.switchVal} onValueChange={this.toggleSwitch} style={{transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }]}}/>
+                        <Text style={{color: 'white', textAlign: 'center', fontSize: 24, marginLeft: 4}}>Ja</Text>
                     </View>
                     {this.state.switchVal &&
-                        <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                            <TimePicker time={this.state.breakTimeStart} handleTimePicked={this.handleTimePickedBreakStart}/>
-                            <Text style={{color: 'white', textAlign: 'center', fontSize: 20, paddingHorizontal: 15}}>til</Text>
-                            <TimePicker time={this.state.breakTimeEnd} handleTimePicked={this.handleTimePickedBreakEnd} />
+                        <View style={{justifyContent: 'center', paddingTop: 40}}>
+                            <Text style={{color: 'white', fontSize: 20, textAlign: 'center'}}>Her kan du eksempelvis indskrive din frokost pause</Text>
+                            <View style={{justifyContent: 'center', flexDirection: 'row', marginTop: 10}}>
+                                <TimePicker time={this.state.breakTimeStart} handleTimePicked={this.handleTimePickedBreakStart}/>
+                                <Text style={{color: 'white', textAlign: 'center', fontSize: 20, paddingHorizontal: 15}}>til</Text>
+                                <TimePicker time={this.state.breakTimeEnd} handleTimePicked={this.handleTimePickedBreakEnd} />
+                            </View>
                         </View>
                     }
-                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <Button style={{borderRadius: 8}} bordered light medium onPress={this._next}>
-                            <Text style={{color: 'white', fontSize: 20, paddingHorizontal: 20}}>Næste</Text>
-                        </Button>
-                    </View>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                    <Button style={{borderRadius: 8, marginHorizontal: 10}} bordered light medium onPress={this._before}>
+                        <Text style={{color: 'white', fontSize: 20, paddingHorizontal: 20}}>Tilbage</Text>
+                    </Button>
+                    <Button style={{borderRadius: 8, marginHorizontal: 10}} bordered light medium onPress={this._next}>
+                        <Text style={{color: 'white', fontSize: 20, paddingHorizontal: 20}}>Næste</Text>
+                    </Button>
                 </View>
             </IntroContainer>
         );

@@ -14,7 +14,6 @@ import AssignmentScreen from './screens/app/AssignmentScreen';
 
 import WelcomeScreen from './screens/intro/WelcomeScreen';
 import JobGeneralScreen from './screens/intro/JobGeneralScreen';
-import JobBreaksScreen from './screens/intro/JobBreaksScreen';
 import IntroductionScreen from './screens/intro/IntroductionScreen';
 
 
@@ -36,9 +35,6 @@ const IntroStack = createStackNavigator(
     },
     JobGeneral: {
       screen: JobGeneralScreen
-    },
-    JobBreaks: {
-      screen: JobBreaksScreen
     },
     Introduction: {
       screen: IntroductionScreen

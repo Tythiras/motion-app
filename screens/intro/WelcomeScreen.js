@@ -35,9 +35,5 @@ export default class extends React.Component {
         this.props.navigation.navigate('JobGeneral');
     }
 
-    _signInAsync = async () => {
-        // await AsyncStorage.setItem('userToken', 'abc');
-        this.props.navigation.navigate('JobGeneral');
-    };
 }
 

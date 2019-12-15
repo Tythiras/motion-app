@@ -16,6 +16,7 @@ class AuthLoadingScreen extends React.Component {
   _bootstrapAsync = async () => {
     AsyncStorage.getItem('introDone')
       .then((done) => {
+        console.log('orale: '+done)
         this.props.navigation.navigate(done ? 'App' : 'Intro');
       })
       .catch((error) => {
