@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import {Title, Subtitle} from 'native-base';
 import ProgressBar from 'react-native-progress/Bar';
+
+
+
 export default class extends React.Component {
   state = {
     minutesToNext: -1
@@ -29,7 +32,9 @@ export default class extends React.Component {
     }
     console.log(this.state.minutesToNext);
   }
+
   componentDidMount() {
+
     this._checkAssignment();
     AsyncStorage.getItem('minutesToNext')
       .then((minutes) => {
@@ -37,6 +42,11 @@ export default class extends React.Component {
         setInterval(this._checkAssignment, 60000)
       })
   }
+
+  _next = async () => {
+    this.props.navigation.navigate('Assignment');
+  };
+
   componentWillUnmount() {
     AsyncStorage.setItem('minutesToNext', this.state.minutesToNext);
   }
@@ -50,11 +60,23 @@ export default class extends React.Component {
             <ProgressBar progress={this.state.minutesToNext / 60} width={230} color={'#48c774'} unfilledColor={'white'} borderWidth={0} />
           </View>
           <Subtitle style={{fontSize: 24, fontWeight: 'bold', marginTop: 30}}>Lav 5 armbøjninger</Subtitle>
-
         </View>
-        <View style={{flex: 6}}>
-          <Title style={{fontSize: 32}}>Orale</Title>
-          <Button title="Start på ny" onPress={this._options} />
+        <View style={{flex: 6,
+          shadowRadius: 2,
+          shadowOffset: {
+            width: 0,
+            height: -3,
+          },
+          shadowColor: '#000000',
+          elevation: 4,
+          justifyContent: 'center'
+        }}>
+          <Button
+              title="Lav 5 armbøjninger"
+              type="outline"
+              style={{width: "50%", }}
+              onPress={this._next}
+          />
         </View>
       </View>
     );
